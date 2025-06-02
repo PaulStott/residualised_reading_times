@@ -57,28 +57,17 @@ for(participant in unique(LONG_FILLERS$Participant)) {
 
 #convert back to wide format to export for analysis
 WIDE_EXP <- LONG_EXP %>%
-  dplyr::select(Participant, TrialN, POS, PRED.RT) %>%
+  mutate(RESID.RT = RT - PRED.RT) %>% #calculate residualised reading time
+  dplyr::select(Participant, TrialN, POS, RESID.RT) %>%
   pivot_wider(names_from = POS,
-              values_from = PRED.RT,
-              names_glue = "C{POS}.PRED")
+              values_from = RESID.RT,
+              names_glue = "C{POS}.RESID")
 
-#join predicted RTs to experimental data
+#join residualised RTs to experimental data
 EXPERIMENTAL_DATA <- WIDE_ANON %>%
   filter(StimType == "exp") %>%
   left_join(WIDE_EXP, by = c("Participant", "TrialN"))
 
-#calculate residualised reading times
-EXPERIMENTAL_DATA <- EXPERIMENTAL_DATA %>%
-  mutate(C1.RESID = C1.RT - C1.PRED,
-         C2.RESID = C2.RT - C2.PRED,
-         C3.RESID = C3.RT - C3.PRED,
-         C4.RESID = C4.RT - C4.PRED)
-
 #export dataset
 EXPERIMENTAL_DATA %>%
   write_csv("your_experimental_data.csv")
-
-
-
-
-
