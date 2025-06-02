@@ -2,6 +2,6 @@ Residualising reading times (e.g., from a self-paced reading experiment) can ass
 
 residualised_times.R is a script that can be adapted and used to residualise reading times in R. A dummy dataset (your_anon_data.csv) is included to show how the script is applied.
 
-If you use this script, please cite it: CITATION.cff.
+If you use this script, please cite it: [CITATION.cff](CITATION.cff).
 
 Feel free to get in touch with any queries.
